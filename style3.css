@@ -3,7 +3,7 @@
 		font-family: "Nanum Gothic";
 		font-size: 12px;
 		-webkit-text-size-adjust: none;
-		overflow: auto;
+		overflow-x: auto;
 	}
 	
 	p{
