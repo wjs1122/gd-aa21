@@ -36,11 +36,11 @@
   font-family: 'NanumMyeongjo';
   font-style: normal;
   font-weight: 400;
-  src: url(../ont/NanumMyeongjo.eot);
-  src: url(../ont/NanumMyeongjo.eot?#iefix) format('embedded-opentype'),
-       url(../ont/NanumMyeongjo.woff2) format('woff2'),
-       url(../ont/NanumMyeongjo.woff) format('woff'),
-       url(../ont/NanumMyeongjo.ttf) format('truetype');
+  src: url(../font/NanumMyeongjo.eot);
+  src: url(../font/NanumMyeongjo.eot?#iefix) format('embedded-opentype'),
+       url(../font/NanumMyeongjo.woff2) format('woff2'),
+       url(../font/NanumMyeongjo.woff) format('woff'),
+       url(../font/NanumMyeongjo.ttf) format('truetype');
 }
 
 @font-face {
