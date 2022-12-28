@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <TITLE>검단신도시 AA21BL 안단테 위임장</TITLE>
 
-<<<<<<< Updated upstream
 
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -16,15 +15,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="./css/font.css" rel="stylesheet" type="text/css">
     <link id="mycss01" href="./css/style3.css" rel="stylesheet" type="text/css">
-=======
-    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-    <script src="./html2canvas.min.js"></script>
-    <!-- <link href="font.css" rel="stylesheet" type="text/css"> -->
-    <link id="mycss01" href="style3.css" rel="stylesheet" type="text/css">
->>>>>>> Stashed changes
 
     <style>
 
@@ -131,7 +121,6 @@
 
 
     <script>
-<<<<<<< Updated upstream
         const curr = new Date();
         const utc = curr.getTime() + (curr.getTimezoneOffset() * 60 * 1000);
         const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
@@ -142,36 +131,6 @@
 
             $("#write_date").text(now.getFullYear() + '년 ' + (now.getMonth()+1) + '월 ' + now.getDate() + '일')
 
-=======
-        var targetImgId = '';
-        jQuery(function () {
-            //Initialize sign pad
-            init_Sign_Canvas();
-        });
-
-        $(function(){
-            $(".btn_download").click(function(e){
-                html2canvas(document.getElementById("capture_area")).then(function(canvas) {
-                    var el = document.createElement("a")
-                    el.href = canvas.toDataURL("image/jpeg")
-                    el.download = 'aa21bl_위임장.jpg'
-                    el.click()
-                })
-            })
-        })
-
-        function openSignPopup(des) {
-            targetImgId = des;
-            jQuery('#divPopUpSignContract').popup('open');
-        }
-
-
-        function closePopUp() {
-            jQuery('#divPopUpSignContract').popup('close');
-        }
-
-        function init_Sign_Canvas() {
->>>>>>> Stashed changes
             $("#canvas").css("border", "1px solid #000");
 
             var canvas = $("#canvas").get(0);
@@ -182,7 +141,6 @@
                 penColor: "rgb(0, 0, 0)"
             });
 
-<<<<<<< Updated upstream
             $("#print_btn").on("click", function () {
                 var element = document.getElementById('print-area');
                 var opt = {
@@ -203,17 +161,6 @@
                     }
                 };
                 html2pdf().set(opt).from(element).save();
-=======
-            $("#btnSubmitSign").on("click", function () {
-                if (signature.isEmpty()) {
-                    alert("사인이 입력되지 않았습니다.");
-                } else {
-                    var data = signature.toDataURL("image/png");
-                    jQuery(targetImgId).attr('src', data);
-                    jQuery('#divPopUpSignContract').popup('close');
-                    signature.clear();
-                }
->>>>>>> Stashed changes
             });
         });
 
@@ -253,190 +200,11 @@
     </script>
 </HEAD>
 
-<<<<<<< Updated upstream
 <BODY>
     <div id="print-area">
         <!--상단-->
         <div class="logo_area">
             <img class="logo_img" src="./res/logo.png">
-=======
-<BODY id="capture_area" style="width: 700px;">
-    <!--상단-->
-    <div class="blank01"></div>
-
-    <div class="middle textcenter" style="font-size:20px;"><strong>검단신도시 AA21BL 안단테</strong></div>
-    <div class="middle textcenter" style="font-size:40px;"><strong>위 임 장</strong></div>
-
-    <div class="blank01"></div>
-    <div class="blank01"></div>
-
-
-    <div class="step_text"><strong>Ⅰ. 위임자 (개인정보 수집 및 이용·제공에 동의함)</strong></div>
-
-    <table width="700" class="form9_contents table0">
-        <tr>
-            <td class="left_title">계약자명</td>
-            <td>
-                <div class="contractor" contenteditable="true">
-                </div>/
-                <div class="contractor" contenteditable="true">
-                </div>
-            </td>
-            <td class="left_title">동/호수</td>
-            <td>
-                <div class="dongho" contenteditable="true">
-                </div>동
-                <div class="dongho" contenteditable="true">
-                </div>호
-            </td>
-        </tr>
-        <tr>
-            <td class="left_title">연락처</td>
-            <td>
-                <div contenteditable="true"></div>
-            </td>
-            <td class="left_title">생년월일<br>(주민번호 앞자리)</td>
-            <td>
-                <div contenteditable="true"></div>
-            </td>
-        </tr>
-        <tr>
-            <td class="left_title">현 주소</td>
-            <td colspan="3">
-                <div contenteditable="true"></div>
-            </td>
-        </tr>
-    </table>
-
-    <div class="blank01"></div>
-
-    <div class="step_text"><strong>Ⅱ. 수임자 (단체)</strong></div>
-
-    <table width="700" class="form9_contents table0">
-        <tr>
-            <td class="left_title">단체명</td>
-            <td>‘검단신도시 AA21BL 안단테 아파트 입주예정자 협의회’</td>
-
-        </tr>
-        <tr>
-            <td class="left_title">카페주소</td>
-            <td>https://cafe.naver.com/gdaa21</td>
-
-        </tr>
-    </table>
-
-    <div class="blank01"></div>
-
-
-    <div class="step_text"><strong>Ⅲ. 위임기간</strong></div>
-
-    <div class="step_div">아파트 입주 후 입주자대표회의가 설립될 때까지</div>
-
-    <div class="blank01"></div>
-
-    <div class="step_text"><strong>Ⅳ. 위임사항</strong></div>
-    <div class="step_div">·상기 위임자 본인은 검단신도시 AA21BL 안단테 아파트 분양계약자로서, 검단신도시 AA21BL 안단테 입주예정자 협의회의 회칙을 준수하고
-        회원으로서의 역할을 성실히 수행하며, 수임자인 검단신도시 AA21BL 안단테 입주예정자 협의회를 계약자의 권익을 대표하는 공식 단체로
-        인정하여 협의회의 역할 수행과 원활한 운영을 위해 아래와 같이 위임합니다.</div>
-
-    <div class="blank01"></div>
-
-    <table width="700">
-        <tr>
-            <td>
-                <hr style="border-style: dashed;" />
-            </td>
-            <td style="text-align: center;" width="40">아 래</td>
-            <td>
-                <hr style="border-style: dashed;" />
-            </td>
-        </tr>
-    </table>
-
-    <div class="blank01"></div>
-
-    <table width="700">
-        <tr>
-            <td>가. 시행사(한국토지주택공사) 및 시공사(동부건설㈜, ㈜신성건설) 등에 대한 대내외적인 의사전달 및 결정 또는 이에 준하는 사항</td>
-        </tr>
-        <tr>
-            <td>나. 시행사, 시공사, 지자체 및 정부공공기관 등과 협의 시 협상 대표로서의 권한, 소송 및 계약체결 등에 대한 일체의 행위</td>
-        </tr>
-        <tr>
-            <td>다. 건설 관련 환경 개선사항 및 부실시공 시정요구 일체에 대한 법적조치 처리 및 요구 권한</td>
-        </tr>
-        <tr>
-            <td>라. 시설, 환경 등 대내외 협의가 필요한 입주예정자 전체 투표 회부 권한</td>
-        </tr>
-        <tr>
-            <td>마. 입주예정자와 관련된 요구, 민원사항을 대리하는 일체의 행위</td>
-        </tr>
-
-        <tr>
-            <td>바. 기타 입주예정자 공동의 이익증진을 위한 사안 등</td>
-        </tr>
-    </table>
-
-
-    <div class="blank01"></div>
-
-    <div class="middle textcenter" style="font-size:20px;">2022년 12월 26일</div>
-
-    <div class="blank01"></div>
-
-    <table id="signTable" width="700" class="table0">
-        <tr>
-            <td width="70%" style="text-align: right;">위임자 성명 : </td>
-            <td width="20%" style="padding-left: 10px;">
-                <div contenteditable="true"></div>
-            </td>
-            <td width="10%">
-                <div style="width:100%; height:100%; position: relative;" onclick="openSignPopup('#sign1')">
-                    <!-- w 40 h 37 -->
-                    <div class="textcenter"
-                        style="width:100%; height:100%; line-height: 37px; position: absolute; top:0; left:0">(서명)</div>
-                    <img id="sign1" style="width: 100%;height: 100%;" />
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td width="70%"></td>
-            <td width="20%">
-                <div contenteditable="true"></div>
-            </td>
-            <td class="middle textcenter" width="10%">
-                <div style="width:100%; height:100%; position: relative;" onclick="openSignPopup('#sign2')">
-                    <!-- w 68 h 38 -->
-                    <div class="textcenter"
-                        style="width:100%; height:100%; line-height: 37px; position: absolute; top:0; left:0">(서명)</div>
-
-                    <img id="sign2" style="width: 100%;height: 100%;" />
-                </div>
-            </td>
-        </tr>
-    </table>
-
-    <div class="middle textcenter" style="font-size:20px;margin-top: 10px;"><strong>검단신도시 AA21BL 안단테 입주예정자 협의회
-            귀중</strong></div>
-
-
-    <div data-role="popup" id="divPopUpSignContract">
-        <div data-role="header" data-theme="b">
-            <a data-role="button" data-rel="back" data-transition="slide" class="ui-btn-right" onclick="closePopUp()">
-                닫기 </a>
-            <p class="popupHeader">서명란</p>
-        </div>
-        <div class="ui-content popUpHeight">
-            <div id="div_signcontract">
-                <canvas id="canvas" width="272" height="152">Canvas is not supported</canvas>
-                <div>
-                    <input id="btnSubmitSign" type="button" data-inline="true" data-mini="true" data-theme="b"
-                        value="확인" />
-                    <input id="btnClearSign" type="button" data-inline="true" data-mini="true" data-theme="b"
-                        value="지우기" />
-                </div>
-            </div>
->>>>>>> Stashed changes
         </div>
         <div class="blank01"></div>
 
@@ -595,7 +363,6 @@
         <div class="middle textcenter footer_text" ><strong>검단신도시 AA21BL 안단테 입주예정자 협의회 귀중</strong></div>
     </div>
 
-<<<<<<< Updated upstream
 
 
     <div id="sign-dialog" style="display: none;" title="서명">
@@ -606,10 +373,6 @@
     <div contenteditable="true"></div>
 
     <input id="print_btn" class="print_button" type="button" value="문서 다운로드"/>
-=======
->>>>>>> Stashed changes
 </BODY>
-
-<button type="button" class="btn_download">다운로드</button>
 
 </HTML>
