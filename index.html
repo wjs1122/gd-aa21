@@ -108,6 +108,7 @@
             width: 700px; 
             height: 58px; 
             margin: auto;
+            margin-top: 10px;
         }
 
         .logo_img { 
@@ -144,14 +145,11 @@
             $("#print_btn").on("click", function () {
                 var element = document.getElementById('print-area');
                 var opt = {
-                    margin:       0,
+                    margin: 10,
                     filename: 'AA21BL-위임장 ' + $('dong').text() + '-' + $('ho').text() + '.pdf',
                     html2canvas:  { 
-                        scale: 1, 
-                        logging: true, 
-                        dpi: 96, 
-                        letterRendering: true, 
-                        scrollY: 0},
+                        scrollY: 0
+                    },
                     jsPDF: {
                         orientation: 'p',
                         unit: 'mm',
