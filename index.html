@@ -1,21 +1,49 @@
-<HTML>
-
+<!DOCTYPE html>
+<HTML lang="ko">
 <HEAD>
     <meta http-equiv="Content-Language" content="ko">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=740px, initial-scale=1">
+    <meta name="viewport" content="width=740, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <TITLE>검단신도시 AA21BL 안단테 위임장</TITLE>
 
-    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 
-    <!-- <link href="font.css" rel="stylesheet" type="text/css"> -->
-    <link id="mycss01" href="style3.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="./css/font.css" rel="stylesheet" type="text/css">
+    <link id="mycss01" href="./css/style3.css" rel="stylesheet" type="text/css">
 
     <style>
+
+        .header_title_round {
+            color: white;
+            display: inline-block;
+            background: #2b4d62;
+            border-radius: 15px 0px 15px 0px;
+            font-size:20px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .header_title_sub {
+            padding-left: 10px;
+            display: inline-block;
+            font-size:20px;
+        }
+        
+        .doc_title {
+            font-size:48px;
+            font-weight: 800;
+        }
+
+        .footer_text {
+            font-size:20px;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
         .step_text {
             width: 700px;
             margin: auto;
@@ -24,7 +52,7 @@
         }
 
         .step_div {
-            width: 700;
+            width: 700px;
             margin: auto;
         }
 
@@ -32,7 +60,7 @@
             width: 100px;
             text-align: center;
         }
-
+ 
         .table0 td {
             height: 40px;
         }
@@ -49,245 +77,302 @@
             text-align: right;
         }
 
-        #div_signcontract {
-            width: 99%;
+        .print_button {
+            width: 700px; 
+            height: 40px; 
+            margin: auto; 
+            display: block;
         }
 
-        .popupHeader {
-            margin: 10px;
+        .date_area {
+            font-size:20px;
         }
+
+        .sign_area {
+            width:100%; 
+            height:100%; 
+            position: relative;
+        }
+
+        .sign_back {
+            color: #999;
+            width:100%; 
+            height:100%; 
+            line-height: 37px; 
+            position: absolute; 
+            top:0; 
+            left:0
+        }
+
+        .logo_area {
+            width: 700px; 
+            height: 58px; 
+            margin: auto;
+        }
+
+        .logo_img { 
+            width:171px; 
+            height:58px;
+            float: right;
+        }
+
+
     </style>
 
 
     <script>
-        var isSign = false;
-        var leftMButtonDown = false;
-        var targetImgId = '';
-        jQuery(function () {
-            //Initialize sign pad
-            init_Sign_Canvas();
-        });
+        const curr = new Date();
+        const utc = curr.getTime() + (curr.getTimezoneOffset() * 60 * 1000);
+        const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+        var signature;
+        $(function () {
+            
+            var now = new Date(utc + KR_TIME_DIFF);
 
-        function openSignPopup(des) {
-            targetImgId = des;
-            jQuery('#divPopUpSignContract').popup('open');
-        }
-
-
-        function closePopUp() {
-            jQuery('#divPopUpSignContract').popup('close');
-        }
-
-        function init_Sign_Canvas() {
-            isSign = false;
-            leftMButtonDown = false;
+            $("#write_date").text(now.getFullYear() + '년 ' + (now.getMonth()+1) + '월 ' + now.getDate() + '일')
 
             $("#canvas").css("border", "1px solid #000");
 
             var canvas = $("#canvas").get(0);
 
-            var signature = new SignaturePad(canvas, {
+            signature = new SignaturePad(canvas, {
                 minWidth: 2,
                 maxWidth: 2,
                 penColor: "rgb(0, 0, 0)"
             });
 
-            $("#btnSubmitSign").on("click", function () {
-                if (signature.isEmpty()) {
-                    alert("사인이 입력되지 않았습니다.");
-                } else {
-                    var data = signature.toDataURL("image/png");
-                    jQuery(targetImgId).attr('src', data);
-                    jQuery('#divPopUpSignContract').popup('close');
-                }
+            $("#print_btn").on("click", function () {
+                var element = document.getElementById('print-area');
+                var opt = {
+                    margin:       0,
+                    filename: 'AA21BL-위임장 ' + $('dong').text() + '-' + $('ho').text() + '.pdf',
+                    html2canvas:  { 
+                        scale: 1, 
+                        logging: true, 
+                        dpi: 96, 
+                        letterRendering: true, 
+                        scrollY: 0},
+                    jsPDF: {
+                        orientation: 'p',
+                        unit: 'mm',
+                        format: 'a4',
+                        putOnlyUsedFonts:true,
+                        floatPrecision: 16
+                    }
+                };
+                html2pdf().set(opt).from(element).save();
             });
+        });
 
-            $("#btnClearSign").on("click", function () {
-                signature.clear();
+        function openSignPopup(obj) {
+            signature.clear();
+            $(function () {
+                $("#sign-dialog").dialog({
+                    resizable: false,
+                    height: "auto",
+                    width: "auto",
+                    modal: true,
+                    buttons: {
+                        "지우기": function () {
+                            signature.clear();
+                        },
+                        "닫기": function () {
+                            $(this).dialog("close");
+                        },
+                        "확인": function () {
+                            
+                            if (signature.isEmpty()) {
+                                alert("사인이 입력되지 않았습니다.");
+                            } else {
+                                $(obj).find('img').remove();
+                                var data = signature.toDataURL("image/png");
+                                $(obj).append($('<img style="width:100%;height:100%;"/>').attr('src', data));
+                                $(this).dialog("close");
+                            }
+                            
+                        }
+                    }
+                });
             });
         }
+
+
     </script>
 </HEAD>
 
-<BODY style="width: 740px;">
-    <!--상단-->
-    <div class="blank01"></div>
-
-    <div class="middle textcenter" style="font-size:20px;"><strong>검단신도시 AA21BL 안단테</strong></div>
-    <div class="middle textcenter" style="font-size:40px;"><strong>위 임 장</strong></div>
-
-    <div class="blank01"></div>
-    <div class="blank01"></div>
-
-
-    <div class="step_text"><strong>Ⅰ. 위임자 (개인정보 수집 및 이용·제공에 동의함)</strong></div>
-
-    <table width="700" class="form9_contents table0">
-        <tr>
-            <td class="left_title">계약자명</td>
-            <td>
-                <div class="contractor" contenteditable="true">
-                </div>/
-                <div class="contractor" contenteditable="true">
-                </div>
-            </td>
-            <td class="left_title">동/호수</td>
-            <td>
-                <div class="dongho" contenteditable="true">
-                </div>동
-                <div class="dongho" contenteditable="true">
-                </div>호
-            </td>
-        </tr>
-        <tr>
-            <td class="left_title">연락처</td>
-            <td>
-                <div contenteditable="true"></div>
-            </td>
-            <td class="left_title">생년월일<br>(주민번호 앞자리)</td>
-            <td>
-                <div contenteditable="true"></div>
-            </td>
-        </tr>
-        <tr>
-            <td class="left_title">현 주소</td>
-            <td colspan="3">
-                <div contenteditable="true"></div>
-            </td>
-        </tr>
-    </table>
-
-    <div class="blank01"></div>
-
-    <div class="step_text"><strong>Ⅱ. 수임자 (단체)</strong></div>
-
-    <table width="700" class="form9_contents table0">
-        <tr>
-            <td class="left_title">단체명</td>
-            <td>‘검단신도시 AA21BL 안단테 아파트 입주예정자 협의회’</td>
-
-        </tr>
-        <tr>
-            <td class="left_title">카페주소</td>
-            <td>https://cafe.naver.com/gdaa21</td>
-
-        </tr>
-    </table>
-
-    <div class="blank01"></div>
-
-
-    <div class="step_text"><strong>Ⅲ. 위임기간</strong></div>
-
-    <div class="step_div">아파트 입주 후 입주자대표회의가 설립될 때까지</div>
-
-    <div class="blank01"></div>
-
-    <div class="step_text"><strong>Ⅳ. 위임사항</strong></div>
-    <div class="step_div">·상기 위임자 본인은 검단신도시 AA21BL 안단테 아파트 분양계약자로서, 검단신도시 AA21BL 안단테 입주예정자 협의회의 회칙을 준수하고
-        회원으로서의 역할을 성실히 수행하며, 수임자인 검단신도시 AA21BL 안단테 입주예정자 협의회를 계약자의 권익을 대표하는 공식 단체로
-        인정하여 협의회의 역할 수행과 원활한 운영을 위해 아래와 같이 위임합니다.</div>
-
-    <div class="blank01"></div>
-
-    <table width="700">
-        <tr>
-            <td>
-                <hr style="border-style: dashed;" />
-            </td>
-            <td style="text-align: center;" width="40">아 래</td>
-            <td>
-                <hr style="border-style: dashed;" />
-            </td>
-        </tr>
-    </table>
-
-    <div class="blank01"></div>
-
-    <table width="700">
-        <tr>
-            <td>가. 시행사(한국토지주택공사) 및 시공사(동부건설㈜, ㈜신성건설) 등에 대한 대내외적인 의사전달 및 결정 또는 이에 준하는 사항</td>
-        </tr>
-        <tr>
-            <td>나. 시행사, 시공사, 지자체 및 정부공공기관 등과 협의 시 협상 대표로서의 권한, 소송 및 계약체결 등에 대한 일체의 행위</td>
-        </tr>
-        <tr>
-            <td>다. 건설 관련 환경 개선사항 및 부실시공 시정요구 일체에 대한 법적조치 처리 및 요구 권한</td>
-        </tr>
-        <tr>
-            <td>라. 시설, 환경 등 대내외 협의가 필요한 입주예정자 전체 투표 회부 권한</td>
-        </tr>
-        <tr>
-            <td>마. 입주예정자와 관련된 요구, 민원사항을 대리하는 일체의 행위</td>
-        </tr>
-
-        <tr>
-            <td>바. 기타 입주예정자 공동의 이익증진을 위한 사안 등</td>
-        </tr>
-    </table>
-
-
-    <div class="blank01"></div>
-
-    <div class="middle textcenter" style="font-size:20px;">2022년 12월 26일</div>
-
-    <div class="blank01"></div>
-
-    <table id="signTable" width="700" class="table0">
-        <tr>
-            <td width="70%" style="text-align: right;">위임자 성명 : </td>
-            <td width="20%" style="padding-left: 10px;">
-                <div contenteditable="true"></div>
-            </td>
-            <td width="10%">
-                <div style="width:100%; height:100%; position: relative;" onclick="openSignPopup('#sign1')">
-                    <!-- w 40 h 37 -->
-                    <div class="textcenter"
-                        style="width:100%; height:100%; line-height: 37px; position: absolute; top:0; left:0">(서명)</div>
-                    <img id="sign1" style="width: 100%;height: 100%;" />
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td width="70%"></td>
-            <td width="20%">
-                <div contenteditable="true"></div>
-            </td>
-            <td class="middle textcenter" width="10%">
-                <div style="width:100%; height:100%; position: relative;" onclick="openSignPopup('#sign2')">
-                    <!-- w 40 h 37 -->
-                    <div class="textcenter"
-                        style="width:100%; height:100%; line-height: 37px; position: absolute; top:0; left:0">(서명)</div>
-
-                    <img id="sign2" style="width: 100%;height: 100%;" />
-                </div>
-            </td>
-        </tr>
-    </table>
-
-    <div class="middle textcenter" style="font-size:20px;margin-top: 10px;"><strong>검단신도시 AA21BL 안단테 입주예정자 협의회
-            귀중</strong></div>
-
-
-    <div style="width: 700;height: 90;">
-        <div data-role="popup" id="divPopUpSignContract">
-            <div data-role="header" data-theme="b"> <a data-role="button" data-rel="back" data-transition="slide"
-                    class="ui-btn-right" onclick="closePopUp()"> 닫기 </a>
-                <p class="popupHeader">서명란-------------</p>
-            </div>
-            <div class="ui-content popUpHeight">
-                <div id="div_signcontract">
-                    <canvas id="canvas" width="210" height="111">Canvas is not supported</canvas>
-                    <div>
-                        <input id="btnSubmitSign" type="button" data-inline="true" data-mini="true" data-theme="b"
-                            value="확인" />
-                        <input id="btnClearSign" type="button" data-inline="true" data-mini="true" data-theme="b"
-                            value="지우기" />
-                    </div>
-                </div>
-            </div>
+<BODY>
+    <div id="print-area">
+        <!--상단-->
+        <div class="logo_area">
+            <img class="logo_img" src="./res/logo.png">
         </div>
+        <div class="blank01"></div>
+
+        <div class="middle textcenter">
+            <div class="header_title_round"><strong>검단신도시</strong></div>
+            <div class="header_title_sub"><strong>AA21BL 안단테</strong></div>
+            
+        </div>
+        <div class="middle textcenter doc_title">위&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;임&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;장</div>
+        
+
+        <div class="blank01"></div>
+        <div class="blank01"></div>
+
+
+        <div class="step_text"><strong>Ⅰ. 위임자 (개인정보 수집 및 이용·제공에 동의함)</strong></div>
+
+        <table width="700" class="form9_contents table0">
+            <tr>
+                <td class="left_title">계약자명</td>
+                <td>
+                    <div class="contractor" contenteditable="true">
+                    </div>/
+                    <div class="contractor" contenteditable="true">
+                    </div>
+                </td>
+                <td class="left_title">동/호수</td>
+                <td>
+                    <div id="dong" class="dongho" contenteditable="true">
+                    </div>동
+                    <div id="ho" class="dongho" contenteditable="true">
+                    </div>호
+                </td>
+            </tr>
+            <tr>
+                <td class="left_title">연락처</td>
+                <td>
+                    <div contenteditable="true"></div>
+                </td>
+                <td class="left_title">생년월일<br>(주민번호 앞자리)</td>
+                <td>
+                    <div contenteditable="true"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="left_title">현 주소</td>
+                <td colspan="3">
+                    <div contenteditable="true"></div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="blank01"></div>
+
+        <div class="step_text"><strong>Ⅱ. 수임자 (단체)</strong></div>
+
+        <table width="700" class="form9_contents table0">
+            <tr>
+                <td class="left_title">단체명</td>
+                <td>‘검단신도시 AA21BL 안단테 아파트 입주예정자 협의회’</td>
+
+            </tr>
+            <tr>
+                <td class="left_title">카페주소</td>
+                <td>https://cafe.naver.com/gdaa21</td>
+
+            </tr>
+        </table>
+
+        <div class="blank01"></div>
+
+
+        <div class="step_text"><strong>Ⅲ. 위임기간</strong></div>
+
+        <div class="step_div">아파트 입주 후 입주자대표회의가 설립될 때까지</div>
+
+        <div class="blank01"></div>
+
+        <div class="step_text"><strong>Ⅳ. 위임사항</strong></div>
+        <div class="step_div">·상기 위임자 본인은 검단신도시 AA21BL 안단테 아파트 분양계약자로서, 검단신도시 AA21BL 안단테 입주예정자 협의회의 회칙을 준수하고
+            회원으로서의 역할을 성실히 수행하며, 수임자인 검단신도시 AA21BL 안단테 입주예정자 협의회를 계약자의 권익을 대표하는 공식 단체로
+            인정하여 협의회의 역할 수행과 원활한 운영을 위해 아래와 같이 위임합니다.</div>
+
+        <div class="blank01"></div>
+
+        <table width="700">
+            <tr>
+                <td>
+                    <hr style="border-style: dashed;" />
+                </td>
+                <td style="text-align: center;" width="40px">아 래</td>
+                <td>
+                    <hr style="border-style: dashed;" />
+                </td>
+            </tr>
+        </table>
+
+        <div class="blank01"></div>
+
+        <table width="700">
+            <tr>
+                <td>가. 시행사(한국토지주택공사) 및 시공사(동부건설㈜, ㈜신성건설) 등에 대한 대내외적인 의사전달 및 결정 또는 이에 준하는 사항</td>
+            </tr>
+            <tr>
+                <td>나. 시행사, 시공사, 지자체 및 정부공공기관 등과 협의 시 협상 대표로서의 권한, 소송 및 계약체결 등에 대한 일체의 행위</td>
+            </tr>
+            <tr>
+                <td>다. 건설 관련 환경 개선사항 및 부실시공 시정요구 일체에 대한 법적조치 처리 및 요구 권한</td>
+            </tr>
+            <tr>
+                <td>라. 시설, 환경 등 대내외 협의가 필요한 입주예정자 전체 투표 회부 권한</td>
+            </tr>
+            <tr>
+                <td>마. 입주예정자와 관련된 요구, 민원사항을 대리하는 일체의 행위</td>
+            </tr>
+
+            <tr>
+                <td>바. 기타 입주예정자 공동의 이익증진을 위한 사안 등</td>
+            </tr>
+        </table>
+
+
+        <div class="blank01"></div>
+
+        <div id="write_date" class="middle textcenter date_area">2022년 12월 26일</div>
+
+        <div class="blank01"></div>
+
+        <table id="signTable" width="700px" class="table0">
+            <tr>
+                <td width="70%" style="text-align: right;">위임자 성명 : </td>
+                <td width="20%" style="padding-left: 10px;">
+                    <div contenteditable="true"></div>
+                </td>
+                <td width="10%">
+                    <div class="sign_area" onclick="openSignPopup(this)">
+                        <!-- w 40 h 37 -->
+                        <div class="textcenter sign_back">(서명)</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="70%"></td>
+                <td width="20%" style="padding-left: 10px;">
+                    <div contenteditable="true"></div>
+                </td>
+                <td class="middle textcenter" width="10%">
+                    <div class="sign_area" onclick="openSignPopup(this)">
+                        <!-- w 40 h 37 -->
+                        <div class="textcenter sign_back">(서명)</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="middle textcenter footer_text" ><strong>검단신도시 AA21BL 안단테 입주예정자 협의회 귀중</strong></div>
     </div>
+
+
+
+    <div id="sign-dialog" style="display: none;" title="서명">
+        <canvas id="canvas" width="210px" height="111px">Canvas is not supported</canvas>
+    </div>
+
+    <div contenteditable="true"></div>
+    <div contenteditable="true"></div>
+
+    <input id="print_btn" class="print_button" type="button" value="문서 다운로드"/>
 </BODY>
 
 </HTML>
