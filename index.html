@@ -13,6 +13,8 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script> -->
     <link href="./css/font.css" rel="stylesheet" type="text/css">
     <link id="mycss01" href="./css/style3.css" rel="stylesheet" type="text/css">
@@ -64,6 +66,7 @@
  
         .table0 td {
             height: 40px;
+            line-height: 1.75;
         }
 
         .contractor {
@@ -144,6 +147,44 @@
             });
 
             $("#print_btn").on("click", function () {
+
+                if ($("#addr").text().trim().length == 0) {
+                    alert("주소가 입력되지 않았습니다.");
+                    return;
+                }
+
+                if ($("#contact").text().trim().length == 0) {
+                    alert("연락처가 입력되지 않았습니다.");
+                    return;
+                }
+
+                if ($("#birthday").text().trim().length == 0) {
+                    alert("생년월일이 입력되지 않았습니다.");
+                    return;
+                }
+
+                if ($("#birthday").text().trim().length != 8) {
+                    alert("생년월일이 값이 잘못되었습니다.\n(ex 901225 형식으로 입력하여 주십시오.)");
+                    return;
+                }
+
+                if ($("#dong").text().trim().length == 0) {
+                    alert("동이 입력되지 않았습니다.");
+                    return;
+                }
+
+                var dong = Number($("#dong").text().trim());
+                if (dong < 4501 || dong > 4512) {
+                    alert("동 값이 잘못입력되었습니다.\n(ex 4501 ~ 4512)");
+                    return;
+                }
+
+                if ($("#ho").text().trim().length == 0) {
+                    alert("호수가 입력되지 않았습니다.");
+                    return;
+                }
+
+
                 var element = document.getElementById('print-area');
                 var opt = {
                     margin: 10,
@@ -160,6 +201,24 @@
                     }
                 };
                 html2pdf().set(opt).from(element).save();
+            });
+
+            $("#addr").focusin(function(){
+                if ($(this).text().trim().length > 0) return;
+                
+                $(this).blur();
+
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        $("#addr").text(data["address"])
+                    }
+                }).open();
+            });
+
+            $("#contact").focusout(function(){
+                if ($(this).text().trim().length == 0) return;
+
+                $(this).text($(this).text().replace(/[^0-9]/g, "").replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3"));
             });
         });
 
@@ -241,17 +300,17 @@
             <tr>
                 <td class="left_title">연락처</td>
                 <td>
-                    <div contenteditable="true"></div>
+                    <div id="contact" contenteditable="true"></div>
                 </td>
                 <td class="left_title">생년월일<br>(주민번호 앞자리)</td>
                 <td>
-                    <div contenteditable="true"></div>
+                    <div id="birthday" contenteditable="true"></div>
                 </td>
             </tr>
             <tr>
                 <td class="left_title">현 주소</td>
                 <td colspan="3">
-                    <div contenteditable="true"></div>
+                    <div id="addr" contenteditable="true"></div>
                 </td>
             </tr>
         </table>
